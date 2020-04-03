@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Pa$$w0rd",
+    "database": "tiktalk",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
