@@ -1,14 +1,43 @@
 <template>
     <div id="Conversation">
-        {{messages}}
+        <button v-on:click="sendMessage()">Send test message</button>
+        <div v-html="showMessages()"></div>
     </div>
 </template>
 
 <script>
+import API from "@/services/api.js";
+
 export default {
     name: "ConversationArea",
-    props: {
-        messages: String
+    data : function () {
+        return {
+            id : 1,
+            messages : [] // {} = objet, [] = tableau
+        }
+    },
+    methods: {
+        showMessages: function () {
+            let texte = "";
+            console.log(this.messages);
+            this.messages.map((message) => {
+                // `Chaine de charactère interprétable` => `${variable à transformer en valeur dans le texte (donc un string)}`
+                texte += `</br><b>${message.User.username}</b>: ${message.content}`;
+            });
+            return texte;
+        },
+        sendMessage: function () {
+            API.sendMessage(this.id);
+        }
+    },
+    created () {
+        API.getConversation(this.id).then((res) => {
+            this.messages = res.data.messages;
+        });
+
+        /*API.sendMessage(message).then((res) => {
+            this.messages.push(res.data.message);
+        });*/
     }
 }
 </script>
